@@ -1,0 +1,2 @@
+supabase secrets set TOKEN_ENCRYPTION_KEY=$(openssl rand -hex 32)
+supabase secrets set ALLOWED_ORIGINS=https://yourdomain.com

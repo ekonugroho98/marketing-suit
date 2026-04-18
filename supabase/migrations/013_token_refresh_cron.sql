@@ -1,0 +1,69 @@
+-- ============================================================
+-- Migration 013: Token Refresh Cron & OAuth States Cleanup
+-- ============================================================
+-- Dua scheduled job untuk maintenance otomatis:
+-- 1. Refresh OAuth tokens yang akan expired (daily)
+-- 2. Cleanup expired OAuth states (hourly)
+--
+-- CATATAN: Semua job di-comment karena memerlukan:
+--   - pg_cron extension diaktifkan di Supabase Dashboard
+--   - pg_net extension diaktifkan di Supabase Dashboard
+--   - <PROJECT_REF> diganti dengan project ref yang sesuai
+--   - Service role key dikonfigurasi di app.settings
+--
+-- Cara aktivasi:
+-- 1. Buka Supabase Dashboard > Database > Extensions
+-- 2. Aktifkan pg_cron dan pg_net
+-- 3. Ganti <PROJECT_REF> dengan Supabase project ref Anda
+-- 4. Pastikan service_role_key sudah di-set:
+--    ALTER DATABASE postgres SET app.settings.service_role_key = 'your-service-role-key';
+-- 5. Uncomment dan jalankan query di SQL Editor
+-- ============================================================
+
+-- CREATE EXTENSION IF NOT EXISTS pg_cron;
+-- CREATE EXTENSION IF NOT EXISTS pg_net;
+
+-- ============================================================
+-- Job 1: Refresh OAuth Tokens
+-- ============================================================
+-- Dijalankan setiap hari jam 03:00 UTC.
+-- Memanggil Edge Function refresh-tokens via pg_net HTTP POST.
+-- Function akan query connected_accounts untuk token yang
+-- expired dalam 7 hari ke depan dan me-refresh otomatis.
+-- ============================================================
+
+-- SELECT cron.schedule(
+--   'refresh-oauth-tokens',
+--   '0 3 * * *',
+--   $$
+--   SELECT net.http_post(
+--     url := 'https://<PROJECT_REF>.supabase.co/functions/v1/refresh-tokens',
+--     headers := jsonb_build_object(
+--       'Authorization', 'Bearer ' || current_setting('app.settings.service_role_key'),
+--       'Content-Type', 'application/json'
+--     ),
+--     body := '{}'::jsonb
+--   );
+--   $$
+-- );
+
+-- ============================================================
+-- Job 2: Cleanup Expired OAuth States
+-- ============================================================
+-- Dijalankan setiap jam (menit ke-0).
+-- Menghapus record dari oauth_states yang sudah melewati
+-- expires_at. Ini membersihkan state yang tidak pernah
+-- digunakan (user membatalkan OAuth flow, dsb).
+-- ============================================================
+
+-- SELECT cron.schedule(
+--   'cleanup-oauth-states',
+--   '0 * * * *',
+--   $$ DELETE FROM oauth_states WHERE expires_at < NOW(); $$
+-- );
+
+-- ============================================================
+-- Catatan untuk unschedule (jika perlu menonaktifkan):
+-- SELECT cron.unschedule('refresh-oauth-tokens');
+-- SELECT cron.unschedule('cleanup-oauth-states');
+-- ============================================================
