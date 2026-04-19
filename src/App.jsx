@@ -12,6 +12,7 @@ import SignupPage from "./pages/auth/SignupPage";
 import OnboardingPage from "./pages/auth/OnboardingPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
+import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
 
 // Dashboard
 const DashboardPage = lazy(() => import("./pages/dashboard/DashboardPage"));
@@ -117,6 +118,7 @@ export default function App() {
               <Route path="/onboarding" element={<OnboardingPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/auth/callback" element={<AuthCallbackPage />} />
 
               <Route element={<AppLayout />}>
                 <Route
@@ -521,6 +523,7 @@ export default function App() {
                 />
               </Route>
 
+              <Route path="/" element={<AuthCallbackPage />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>
           </AuthProvider>

@@ -290,6 +290,9 @@ POST /v1/publish
 GET  /v1/publish/history[?platform=&status=]
 GET  /v1/publish/:id              → single record
 GET  /v1/publish/insights/:account_id/:post_id
+POST /v1/publish/threads-insights
+  body: { account_id, limit?, save? }
+  resp: { accountId, username, posts: [{ id, text, metrics, permalink }], accountLinkClicks, fetchedAt }
 
 GET  /v1/schedule[?from=&to=&status=&platform=&brand_id=]
 POST /v1/schedule                 → body: { title, type, platform, brand_id, scheduled_date?, ... }
