@@ -16,20 +16,20 @@ export default function Input({
       {label && (
         <label
           htmlFor={id}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-text-secondary mb-1.5"
         >
           {label}
         </label>
       )}
       <input
         id={id}
-        className={`input-field ${error ? "border-danger-500 focus:ring-danger-500" : ""}`}
+        className={`glass-input ${error ? "border-danger-500/50 focus:border-danger-500 focus:shadow-[0_0_0_3px_rgba(248,113,113,0.1)]" : ""}`}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         {...props}
       />
       {error && (
-        <p id={errorId} className="mt-1 text-sm text-danger-600">
+        <p id={errorId} className="mt-1.5 text-sm text-danger">
           {error}
         </p>
       )}
@@ -54,21 +54,21 @@ export function Textarea({
       {label && (
         <label
           htmlFor={id}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-text-secondary mb-1.5"
         >
           {label}
         </label>
       )}
       <textarea
         id={id}
-        className={`input-field resize-none ${error ? "border-danger-500" : ""}`}
+        className={`glass-input resize-none ${error ? "border-danger-500/50" : ""}`}
         rows={rows}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         {...props}
       />
       {error && (
-        <p id={errorId} className="mt-1 text-sm text-danger-600">
+        <p id={errorId} className="mt-1.5 text-sm text-danger">
           {error}
         </p>
       )}
@@ -93,26 +93,26 @@ export function Select({
       {label && (
         <label
           htmlFor={id}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-text-secondary mb-1.5"
         >
           {label}
         </label>
       )}
       <select
         id={id}
-        className={`input-field ${error ? "border-danger-500" : ""}`}
+        className={`glass-input ${error ? "border-danger-500/50" : ""}`}
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         {...props}
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
+          <option key={opt.value} value={opt.value} className="bg-base-100 text-text-primary">
             {opt.label}
           </option>
         ))}
       </select>
       {error && (
-        <p id={errorId} className="mt-1 text-sm text-danger-600">
+        <p id={errorId} className="mt-1.5 text-sm text-danger">
           {error}
         </p>
       )}

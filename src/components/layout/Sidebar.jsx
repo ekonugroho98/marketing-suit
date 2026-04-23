@@ -42,7 +42,6 @@ export default function Sidebar({ isOpen, onClose }) {
   const { profile, signOut } = useAuth();
 
   const handleNavClick = () => {
-    // Auto-close sidebar on mobile when a nav link is clicked
     if (onClose) {
       onClose();
     }
@@ -53,33 +52,39 @@ export default function Sidebar({ isOpen, onClose }) {
       {/* Backdrop overlay — mobile only */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
       )}
 
-      {/* Sidebar */}
+      {/* Glass Sidebar */}
       <aside
         className={`
-          fixed left-0 top-0 h-screen w-60 bg-sidebar flex flex-col z-40
+          fixed left-0 top-0 h-screen w-60 z-40
           transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0
         `}
+        style={{
+          background: 'rgba(10, 12, 18, 0.75)',
+          backdropFilter: 'blur(28px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(28px) saturate(200%)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.07)',
+        }}
       >
         {/* Header with close button on mobile */}
         <div className="p-5 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white tracking-wide">
+            <h1 className="text-xl font-bold text-text-primary tracking-wide">
               KARAYA
             </h1>
-            <p className="text-xs text-gray-400 mt-0.5">Marketing Suite</p>
+            <p className="text-xs text-text-tertiary mt-0.5">Marketing Suite</p>
           </div>
           {/* Close button — visible only on mobile */}
           <button
             onClick={onClose}
-            className="lg:hidden text-gray-400 hover:text-white transition-colors p-1 -mr-1"
+            className="lg:hidden text-text-tertiary hover:text-text-primary transition-colors p-1 -mr-1"
             aria-label="Tutup menu"
           >
             <svg
@@ -112,10 +117,10 @@ export default function Sidebar({ isOpen, onClose }) {
                 to={item.path}
                 onClick={handleNavClick}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     isActive
-                      ? "bg-primary-600 text-white"
-                      : "text-gray-400 hover:text-white hover:bg-white/10"
+                      ? "bg-primary-500/15 text-primary-400 border border-primary-500/20"
+                      : "text-text-tertiary hover:text-text-primary hover:bg-white/5"
                   }`
                 }
               >
@@ -128,21 +133,21 @@ export default function Sidebar({ isOpen, onClose }) {
 
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-medium">
+            <div className="w-8 h-8 rounded-full bg-primary-500/20 border border-primary-500/30 flex items-center justify-center text-primary-400 text-sm font-medium">
               {profile?.full_name?.[0] || "?"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-white truncate">
+              <p className="text-sm text-text-primary truncate">
                 {profile?.full_name || "User"}
               </p>
-              <p className="text-xs text-gray-400 capitalize">
+              <p className="text-xs text-text-tertiary capitalize">
                 {profile?.subscription_tier || "free"}
               </p>
             </div>
           </div>
           <button
             onClick={signOut}
-            className="w-full text-left text-sm text-gray-400 hover:text-white transition-colors"
+            className="w-full text-left text-sm text-text-tertiary hover:text-text-primary transition-colors px-2 py-1.5 rounded-lg hover:bg-white/5"
           >
             Keluar
           </button>

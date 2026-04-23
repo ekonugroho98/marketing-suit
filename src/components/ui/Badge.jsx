@@ -1,16 +1,18 @@
 const colors = {
-  blue: 'bg-blue-100 text-blue-700',
-  green: 'bg-green-100 text-green-700',
-  yellow: 'bg-yellow-100 text-yellow-700',
-  red: 'bg-red-100 text-red-700',
-  purple: 'bg-purple-100 text-purple-700',
-  gray: 'bg-gray-100 text-gray-600',
-  pink: 'bg-pink-100 text-pink-700',
+  blue: 'bg-blue-500/15 text-blue-400 border border-blue-500/20',
+  green: 'bg-success/15 text-success border border-success/20',
+  yellow: 'bg-warning/15 text-warning border border-warning/20',
+  red: 'bg-danger/15 text-danger border border-danger/20',
+  purple: 'bg-purple-500/15 text-purple-400 border border-purple-500/20',
+  gray: 'bg-white/8 text-text-secondary border border-white/10',
+  pink: 'bg-pink-500/15 text-pink-400 border border-pink-500/20',
+  cyan: 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/20',
+  indigo: 'bg-primary-500/15 text-primary-400 border border-primary-500/20',
 }
 
 const statusColors = {
   draft: 'gray',
-  approved: 'blue',
+  approved: 'indigo',
   scheduled: 'blue',
   published: 'green',
   failed: 'red',

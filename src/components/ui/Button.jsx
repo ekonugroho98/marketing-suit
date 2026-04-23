@@ -1,9 +1,9 @@
 const variants = {
-  primary: 'bg-primary-600 text-white hover:bg-primary-700',
-  secondary: 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50',
-  danger: 'bg-danger-600 text-white hover:bg-danger-700',
-  ghost: 'text-gray-600 hover:bg-gray-100',
-  accent: 'bg-accent-600 text-white hover:bg-accent-700',
+  primary: 'glass-btn-primary',
+  secondary: 'glass-btn',
+  danger: 'bg-danger-500/20 text-danger border border-danger-500/30 hover:bg-danger-500/30 hover:border-danger-500/50',
+  ghost: 'text-text-secondary hover:text-text-primary hover:bg-white/5',
+  accent: 'bg-success/20 text-success border border-success/30 hover:bg-success/30 hover:border-success/50',
 }
 
 const sizes = {
@@ -15,7 +15,7 @@ const sizes = {
 export default function Button({ children, variant = 'primary', size = 'md', className = '', loading, disabled, ...props }) {
   return (
     <button
-      className={`inline-flex items-center justify-center font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${className}`}
       disabled={disabled || loading}
       {...props}
     >

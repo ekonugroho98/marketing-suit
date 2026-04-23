@@ -4,7 +4,6 @@ import { useOutletContext } from 'react-router-dom'
 export default function TopBar({ title, subtitle, actions, onMenuToggle: onMenuToggleProp }) {
   const { brands, activeBrand, setActiveBrand } = useBrand()
 
-  // Get onMenuToggle from Outlet context (provided by AppLayout) as fallback
   const outletContext = useOutletContext() || {}
   const onMenuToggle = onMenuToggleProp || outletContext.onMenuToggle
 
@@ -16,7 +15,7 @@ export default function TopBar({ title, subtitle, actions, onMenuToggle: onMenuT
           <button
             type="button"
             onClick={onMenuToggle}
-            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors"
             aria-label="Buka menu navigasi"
           >
             <svg
@@ -33,8 +32,8 @@ export default function TopBar({ title, subtitle, actions, onMenuToggle: onMenuT
         )}
 
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
-          {subtitle && <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>}
+          <h1 className="text-2xl font-bold text-text-primary">{title}</h1>
+          {subtitle && <p className="text-sm text-text-tertiary mt-0.5">{subtitle}</p>}
         </div>
       </div>
       <div className="flex items-center gap-3">
@@ -42,10 +41,10 @@ export default function TopBar({ title, subtitle, actions, onMenuToggle: onMenuT
           <select
             value={activeBrand?.id || ''}
             onChange={(e) => setActiveBrand(brands.find(b => b.id === e.target.value))}
-            className="input-field text-sm py-1.5 w-auto"
+            className="glass-input text-sm py-2 w-auto"
           >
             {brands.map(b => (
-              <option key={b.id} value={b.id}>{b.name}</option>
+              <option key={b.id} value={b.id} className="bg-base-100 text-text-primary">{b.name}</option>
             ))}
           </select>
         )}

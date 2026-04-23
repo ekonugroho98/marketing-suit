@@ -12,7 +12,6 @@ export default function Modal({ open, onClose, title, children, size = "md" }) {
     };
   }, [open]);
 
-  // Save previously focused element when modal opens, restore on close
   useEffect(() => {
     if (open) {
       previousActiveElementRef.current = document.activeElement;
@@ -22,7 +21,6 @@ export default function Modal({ open, onClose, title, children, size = "md" }) {
     }
   }, [open]);
 
-  // Focus first focusable element on open
   useEffect(() => {
     if (open && modalRef.current) {
       const focusableElements = modalRef.current.querySelectorAll(
@@ -80,30 +78,51 @@ export default function Modal({ open, onClose, title, children, size = "md" }) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onKeyDown={handleKeyDown}
     >
-      <div className="fixed inset-0 bg-black/50" onClick={onClose} />
+      {/* Glass backdrop */}
+      <div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      {/* Glass modal */}
       <div
         ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? "modal-title" : undefined}
-        className={`relative bg-white rounded-xl shadow-xl w-full ${widths[size]} max-h-[90vh] overflow-y-auto`}
+        className={`relative glass-card shadow-glass w-full ${widths[size]} max-h-[90vh] overflow-y-auto animate-[scale-in_0.2s_ease-out]`}
+        style={{
+          animation: 'modal-in 0.2s ease-out',
+        }}
       >
         {title && (
           <div className="flex items-center justify-between p-6 pb-0">
-            <h2 id="modal-title" className="text-lg font-semibold">
+            <h2 id="modal-title" className="text-lg font-semibold text-text-primary">
               {title}
             </h2>
             <button
               onClick={onClose}
               aria-label="Tutup"
-              className="text-gray-400 hover:text-gray-600 text-xl"
+              className="text-text-tertiary hover:text-text-primary text-xl transition-colors w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5"
             >
-              &times;
+              ×
             </button>
           </div>
         )}
         <div className="p-6">{children}</div>
       </div>
+
+      <style>{`
+        @keyframes modal-in {
+          from {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }

@@ -14,9 +14,20 @@ export default function AppLayout() {
     return <Navigate to="/onboarding" replace />;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-base relative">
+      {/* Aurora Background */}
+      <div className="aurora-bg">
+        <div className="aurora-blob aurora-blob-1" />
+        <div className="aurora-blob aurora-blob-2" />
+        <div className="aurora-blob aurora-blob-3" />
+        <div className="aurora-blob aurora-blob-4" />
+      </div>
+
+      {/* Noise texture overlay */}
+      <div className="noise-overlay" />
+
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <main className="lg:ml-60 p-4 lg:p-8">
+      <main className="lg:ml-60 p-4 lg:p-8 relative z-10">
         <Outlet context={{ onMenuToggle: () => setSidebarOpen(true) }} />
       </main>
     </div>

@@ -1,10 +1,3 @@
-/**
- * ProgressBar | Karaya Marketing Suite
- * Shared progress bar component extracted from:
- * - SimpleProgressBar in AdsDashboard.jsx
- * - SimpleBarChart in ABTestDashboard.jsx
- */
-
 const SIZE_CLASSES = {
   sm: 'h-1.5',
   md: 'h-2',
@@ -12,31 +5,32 @@ const SIZE_CLASSES = {
 }
 
 const COLOR_CLASSES = {
-  primary: 'bg-emerald-500',
-  blue: 'bg-blue-500',
-  yellow: 'bg-yellow-500',
-  red: 'bg-red-500',
-  purple: 'bg-purple-500',
-  orange: 'bg-orange-500',
-  green: 'bg-green-500',
-  gray: 'bg-gray-500',
+  primary: 'from-primary-500 to-purple-500',
+  blue: 'from-blue-500 to-cyan-500',
+  yellow: 'from-yellow-500 to-orange-500',
+  red: 'from-red-500 to-pink-500',
+  purple: 'from-purple-500 to-pink-500',
+  orange: 'from-orange-500 to-red-500',
+  green: 'from-green-500 to-emerald-500',
+  gray: 'from-gray-400 to-gray-500',
+  cyan: 'from-cyan-500 to-blue-500',
 }
 
 export default function ProgressBar({ value, total, color = 'primary', size = 'md', showLabel = true }) {
   const percent = total > 0 ? (value / total) * 100 : 0
   const barHeight = SIZE_CLASSES[size] || SIZE_CLASSES.md
-  const barColor = COLOR_CLASSES[color] || COLOR_CLASSES.primary
+  const gradientClass = COLOR_CLASSES[color] || COLOR_CLASSES.primary
 
   return (
     <div className="flex items-center gap-2">
-      <div className={`flex-1 bg-gray-200 rounded-full ${barHeight}`}>
+      <div className={`flex-1 bg-white/5 rounded-full overflow-hidden ${barHeight}`}>
         <div
-          className={`${barColor} ${barHeight} rounded-full transition-all`}
+          className={`bg-gradient-to-r ${gradientClass} ${barHeight} rounded-full transition-all duration-500`}
           style={{ width: `${Math.min(percent, 100)}%` }}
         />
       </div>
       {showLabel && (
-        <span className="text-sm font-medium text-gray-900 w-12 text-right">
+        <span className="text-sm font-medium text-text-secondary w-12 text-right">
           {percent.toFixed(0)}%
         </span>
       )}

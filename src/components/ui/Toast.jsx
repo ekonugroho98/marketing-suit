@@ -12,39 +12,31 @@ const ToastContext = createContext(null);
 const TOAST_TYPES = {
   success: {
     icon: "✓",
-    bg: "bg-accent-50",
-    border: "border-accent-400",
-    text: "text-accent-800",
-    iconBg: "bg-accent-500",
-    iconText: "text-white",
-    progressBar: "bg-accent-500",
+    bg: "rgba(52, 211, 153, 0.1)",
+    border: "rgba(52, 211, 153, 0.3)",
+    text: "#34d399",
+    accentBorder: "border-l-2 border-success",
   },
   error: {
     icon: "✗",
-    bg: "bg-danger-50",
-    border: "border-danger-400",
-    text: "text-danger-800",
-    iconBg: "bg-danger-500",
-    iconText: "text-white",
-    progressBar: "bg-danger-500",
+    bg: "rgba(248, 113, 113, 0.1)",
+    border: "rgba(248, 113, 113, 0.3)",
+    text: "#f87171",
+    accentBorder: "border-l-2 border-danger",
   },
   warning: {
     icon: "⚠",
-    bg: "bg-warning-50",
-    border: "border-warning-400",
-    text: "text-warning-800",
-    iconBg: "bg-warning-500",
-    iconText: "text-white",
-    progressBar: "bg-warning-500",
+    bg: "rgba(251, 191, 36, 0.1)",
+    border: "rgba(251, 191, 36, 0.3)",
+    text: "#fbbf24",
+    accentBorder: "border-l-2 border-warning",
   },
   info: {
     icon: "ℹ",
-    bg: "bg-primary-50",
-    border: "border-primary-400",
-    text: "text-primary-800",
-    iconBg: "bg-primary-500",
-    iconText: "text-white",
-    progressBar: "bg-primary-500",
+    bg: "rgba(129, 140, 248, 0.1)",
+    border: "rgba(129, 140, 248, 0.3)",
+    text: "#818cf8",
+    accentBorder: "border-l-2 border-primary-500",
   },
 };
 
@@ -58,12 +50,10 @@ function ToastItem({ toast, onRemove }) {
   const style = TOAST_TYPES[toast.type] || TOAST_TYPES.info;
 
   useEffect(() => {
-    // Trigger slide-in on mount
     const enterTimer = requestAnimationFrame(() => {
       setIsVisible(true);
     });
 
-    // Auto-dismiss
     const duration = toast.duration || 5000;
     timerRef.current = setTimeout(() => {
       handleClose();
@@ -79,7 +69,6 @@ function ToastItem({ toast, onRemove }) {
     if (isExiting) return;
     setIsExiting(true);
     setIsVisible(false);
-    // Wait for exit animation to complete before removing
     setTimeout(() => {
       onRemove(toast.id);
     }, 300);
@@ -88,49 +77,44 @@ function ToastItem({ toast, onRemove }) {
   return (
     <div
       className={`
-        flex items-start gap-3 w-80 max-w-sm p-4 rounded-lg border shadow-lg backdrop-blur-sm
-        transition-all duration-300 ease-in-out
-        ${style.bg} ${style.border}
+        flex items-start gap-3 w-80 max-w-sm p-4 rounded-xl shadow-glass
+        backdrop-blur-xl transition-all duration-300 ease-in-out
+        ${style.accentBorder}
         ${
           isVisible && !isExiting
             ? "translate-x-0 opacity-100"
             : "translate-x-full opacity-0"
         }
       `}
+      style={{
+        background: style.bg,
+        border: `1px solid ${style.border}`,
+      }}
       role="alert"
     >
-      {/* Icon */}
       <div
-        className={`
-          flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-          ${style.iconBg} ${style.iconText}
-        `}
+        className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+        style={{ background: style.text, color: '#0b0d14' }}
       >
         {style.icon}
       </div>
 
-      {/* Content */}
       <div className="flex-1 min-w-0">
         {toast.title && (
-          <p className={`text-sm font-semibold ${style.text}`}>{toast.title}</p>
+          <p className="text-sm font-semibold" style={{ color: style.text }}>{toast.title}</p>
         )}
         {toast.message && (
           <p
-            className={`text-sm ${style.text} ${toast.title ? "mt-0.5 opacity-80" : ""}`}
+            className="text-sm text-text-secondary mt-0.5"
           >
             {toast.message}
           </p>
         )}
       </div>
 
-      {/* Close button */}
       <button
         onClick={handleClose}
-        className={`
-          flex-shrink-0 w-5 h-5 flex items-center justify-center rounded
-          text-current opacity-50 hover:opacity-100 transition-opacity
-          ${style.text}
-        `}
+        className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded text-text-tertiary hover:text-text-primary transition-colors"
         aria-label="Tutup notifikasi"
       >
         ×
